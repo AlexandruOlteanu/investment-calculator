@@ -14,24 +14,19 @@ export function simulateInvestment({
   const totalMonths = Math.round(totalYears * 12);
   const stepMonths = wantIncrease ? stepYears * 12 : -1;
 
-  let balance = initial;     // invested balance
-  let saved = initial;       // total contributions
+  let balance = initial;
+  let saved = initial;
   let contribution = monthly;
 
   const timeline = [];
 
   for (let m = 0; m < totalMonths; m++) {
-    // Add monthly contribution
     balance += contribution;
     saved += contribution;
 
-    // Apply investment growth
     balance *= 1 + monthlyRate;
 
-    // Inflation-adjusted invested balance
     const realBalance = balance / Math.pow(1 + monthlyInflation, m + 1);
-
-    // Inflation-adjusted saved money
     const savedReal = saved / Math.pow(1 + monthlyInflation, m + 1);
 
     const year = Math.floor(m / 12) + 1;
@@ -46,21 +41,18 @@ export function simulateInvestment({
       savedReal: parseFloat(savedReal.toFixed(2))
     });
 
-    // Optional contribution increases
     if (stepMonths !== -1 && (m + 1) % stepMonths === 0) {
       contribution += raise;
       if (contribution > maxAmount) contribution = maxAmount;
     }
   }
 
-  // Final real balance for stats panel
   const finalRealBalance = balance / Math.pow(1 + monthlyInflation, totalMonths);
   const finalSavedReal = saved / Math.pow(1 + monthlyInflation, totalMonths);
 
-  // Additional summary calculations
   const totalSaved = saved;
-  const profit = balance - saved; // nominal profit
-  const profitReal = finalRealBalance - finalSavedReal; // profit after inflation
+  const profit = balance - saved;
+  const profitReal = finalRealBalance - finalSavedReal;
   const compoundGains = profit;
   const inflationLoss = balance - finalRealBalance;
   const durationYears = totalMonths / 12;
@@ -79,4 +71,9 @@ export function simulateInvestment({
     durationYears: parseFloat(durationYears.toFixed(2)),
     cagr: parseFloat(cagr.toFixed(4))
   };
+}
+
+// Utilitar pentru formatat numere
+export function formatNumber(value) {
+  return value.toLocaleString('ro-RO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }

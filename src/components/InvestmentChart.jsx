@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { formatNumber } from '../utils';
 import './InvestmentChart.css';
 
 export default function InvestmentChart({ data }) {
   const [hiddenLines, setHiddenLines] = useState({});
 
-  // Transformăm datele ca înainte
+  // Consolidăm datele anual
   const yearlyData = [];
   data.forEach(({ year, balance, realBalance, saved, savedReal }) => {
     const existing = yearlyData.find(d => d.year === year);
@@ -19,7 +20,6 @@ export default function InvestmentChart({ data }) {
     }
   });
 
-  // Lista liniilor cu setările lor
   const lines = [
     { dataKey: 'balance', color: '#50e3c2', name: 'Investments Value' },
     { dataKey: 'realBalance', color: '#4a90e2', name: 'Investments Value (After Inflation)' },
@@ -27,7 +27,6 @@ export default function InvestmentChart({ data }) {
     { dataKey: 'savedReal', color: '#d0021b', name: 'Total Contributions (After Inflation)' },
   ];
 
-  // Toggle vizibilitate la click pe legendă
   const handleLegendClick = (o) => {
     const { dataKey } = o;
     setHiddenLines(prev => ({
@@ -44,7 +43,7 @@ export default function InvestmentChart({ data }) {
       >
         <XAxis dataKey="year" />
         <YAxis />
-        <Tooltip />
+        <Tooltip formatter={(value) => formatNumber(value)} />
         <Legend onClick={handleLegendClick} />
         {lines.map(line => (
           <Line
@@ -53,7 +52,7 @@ export default function InvestmentChart({ data }) {
             dataKey={line.dataKey}
             stroke={line.color}
             name={line.name}
-            hide={hiddenLines[line.dataKey]} // doar invizibil, legenda rămâne
+            hide={hiddenLines[line.dataKey]}
             dot={true}
           />
         ))}
