@@ -1,0 +1,55 @@
+form {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: grid;
+  grid-template-columns: 1fr;  /* o singură coloană */
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+}
+
+input[type="number"] {
+  margin-top: 5px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: left;
+  gap: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  accent-color: #4a90e2;
+  cursor: pointer;
+}
+
+button {
+  padding: 12px;
+  font-size: 16px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #357ab8;
+}
